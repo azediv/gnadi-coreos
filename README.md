@@ -1,8 +1,10 @@
 # gnadi-coreos
-bash script to create a CoreOS vm with gandi.cli
+Script d'installation de CoreOS sur une VM Gandi avec gandi.cli
+"fork" d'un script de jmbarbier : 
+https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 ## pré-requis 
-gandi.cli
+ - gandi.cli
 
 ## if-core-config.sh
 if-core-config.sh est utilisé sur la VM  pour récupérer la configuration réseau de l'interface.
