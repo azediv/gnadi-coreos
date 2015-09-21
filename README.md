@@ -1,5 +1,7 @@
 # gnadi-coreos
 Script d'installation de CoreOS sur une VM Gandi avec gandi.cli
+
+## source
 "fork" d'un script de jmbarbier : 
 https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
