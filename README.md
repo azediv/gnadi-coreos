@@ -97,9 +97,16 @@ Récupération du DNS :
 
 
 Création du fichier cloud-config.yml pour l'installation de CoreOS.
-Contient la configuration réseau static (avec un stop, la config et un start du service(unit systemd-networkd.service)) 
-un user avec pass hashé (mkpasswd, openssl, etc...)
-une clé ssh
+Contient la configuration pour : 
+
+ * réseau static (avec un stop, la config et un start du service(unit systemd-networkd.service)) 
+ * un user avec pass hashé (mkpasswd, openssl, etc...) 
+
+	$ mkpasswd --method=SHA-512 --rounds=4096
+
+ * une clé ssh
+
+
 https://coreos.com/os/docs/latest/cloud-config.html#users
 
     # nano cloud-config.yml
@@ -129,7 +136,7 @@ https://coreos.com/os/docs/latest/cloud-config.html#users
           - sudo
           
         ssh_authorized_keys:
-          - ssh-rsa blablacar
+          - ssh-rsa mysshkey user@local
       
 
 Lancement de l'installation sur le disque avec le fichier de config :
