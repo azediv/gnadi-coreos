@@ -8,6 +8,16 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 ## pré-requis 
  - gandi.cli
 
+## howto 
+
+wget https://github.com/azediv/gnadi-coreos/blob/master/core-config.sh
+
+chmod +x core-config.sh
+
+edit core-config.sh 
+
+./core-config.sh
+
 ## core-config.sh
 
 core-config is used locally with gandi.cli to create vm and install coreos with gandi/config 
@@ -21,6 +31,8 @@ cloud-config is used to create cloud-config.yml wth /gandi/config file
 cloud-config.yml is used to configure coreos installation
 
 ## if-core-config.sh
+
+/!\ WIP /!\
 
 if-core-config.sh est utilisé sur la VM  pour récupérer la configuration réseau de l'interface.
 
