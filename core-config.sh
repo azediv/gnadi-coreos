@@ -14,6 +14,10 @@ USER=coruser
 
 DC=US
 
+# Define core sys disk
+
+DISK=core_sys
+
 # Define SSHKEY
 
 # SSHKEY=~/.ssh/id_rsa.pub
@@ -26,7 +30,7 @@ wait
 
 # disk creation and attach to vm as coreos-install.sh target 
 
-gandi disk create --name core_sys --size 10G --datacenter $DC --vm $VM
+gandi disk create --name $DISK --size 10G --datacenter $DC --vm $VM
 
 wait
 
@@ -59,15 +63,19 @@ gandi vm stop $VM
 
 wait
 
-gandi disk detach sys_coreos
+gandi disk detach sys_$VM
 
 wait
 
-gandi disk detach core_sys
+gandi disk detach $DISK
 
 wait
 
-gandi disk update --kernel raw core_sys
+gandi disk update --kernel raw $DISK
+
+wait
+
+gandi disk attach -p0 $DISK $VM
 
 wait
 
