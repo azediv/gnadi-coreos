@@ -16,8 +16,7 @@ L'adresse IP le DNS et la route sont ajoutés au fichier cloud-config.yml
 ## core-install.sh
 core-install.sh est utilisé sur l'ordinateur local pour initier le processus automatisé d'install
 
-## coreos.md
-Processus détaillé étape par étape de l'installation de CoreOS sur une VM avec gandi.cli :
+## step by step
 
 ### Description : 
 
