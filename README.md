@@ -1,54 +1,41 @@
 # gnadi-coreos
-Script d'installation de CoreOS sur une VM Gandi avec gandi.cli
+Installation script for CoreOS on Gandi server with gandi.cli
 
 ## source
-"fork" d'un script de jmbarbier : 
+"fork" from jmbarbier idea : 
 https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 ## pré-requis 
  - gandi.cli
+ - credits on iaas account
 
 ## howto 
 
-wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/core-config.sh
+Download on local computer and make it executable
 
-chmod +x core-config.sh
+ $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/core-config.sh && chmod +x core-config.sh
 
-edit core-config.sh 
+Edit core-config.sh to change hostname, disk name, user and run :
 
-./core-config.sh
+ $ ./core-config.sh
 
 ## core-config.sh
 
-core-config is used locally with gandi.cli to create vm and install coreos with gandi/config 
+core-config is used locally with gandi.cli to create vm and install coreos with /gandi/config json file 
 
-details in script... :p
+details in script... :p (moar soon)
 
 ## cloud-config.sh
 
 cloud-config is used to create cloud-config.yml wth /gandi/config file
 
-cloud-config.yml is used to configure coreos installation
-
-## if-core-config.sh
-
-/!\ WIP /!\
-
-if-core-config.sh est utilisé sur la VM  pour récupérer la configuration réseau de l'interface.
-
-L'adresse IP le DNS et la route sont ajoutés au fichier cloud-config.yml
-
-## core-install.sh
-
-/!\ WIP /!\
-
-core-install.sh est utilisé sur l'ordinateur local pour initier le processus automatisé d'install
+cloud-config.yml is then used to configure coreos installation
 
 ## step by step
 
 ### Description
 
-Installation de CoreOS avec un kernel raw et une IP fixe sur une vm
+Installation of CoreOS avec un kernel raw et une IP fixe on Gandi Iaas server
 
 ### Résumé
 

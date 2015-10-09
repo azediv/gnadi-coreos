@@ -2,25 +2,12 @@
 
 # core-install script with /gandi/config file
 
-# Define vm hostname
+# Define vm hostname user datacenter and disk name
 
 VM=coreos
-
-# Define username
-
 USER=coruser
-
-# Define Datacenter
-
 DC=US
-
-# Define core sys disk
-
 DISK=coresys
-
-# Define SSHKEY
-
-# SSHKEY=~/.ssh/id_rsa.pub
 
 # Create VM Debian (min 512Mo, 256Mo is not enough to install packages)
 
@@ -34,10 +21,11 @@ gandi disk create --name $DISK --size 10G --datacenter $DC --vm $VM
 
 wait
 
-# Connexion SSH to Debian vm
-# Detach coreos disk before installation :
-# Get coreos-install script
-# Get interface configuration script for cloud-config
+# SSH to Debian vm
+# unmount coreos disk before installation
+# download coreos-install
+# download cloud-config.sh 
+# chmod +x both and run them to install
 
 gandi vm ssh $VM "umount /dev/sdc;\
 
