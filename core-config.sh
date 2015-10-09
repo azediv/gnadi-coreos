@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # core-install script with /gandi/config file
-# howto import json data and create cloud-config.yml
 
 # Define vm hostname
 
