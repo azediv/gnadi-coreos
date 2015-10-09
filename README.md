@@ -8,12 +8,28 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 ## pré-requis 
  - gandi.cli
 
+## core-config.sh
+
+core-config is used locally with gandi.cli to create vm and install coreos with gandi/config 
+
+details in script... :p
+
+## cloud-config.sh
+
+cloud-config is used to create cloud-config.yml wth /gandi/config file
+
+cloud-config.yml is used to configure coreos installation
+
 ## if-core-config.sh
+
 if-core-config.sh est utilisé sur la VM  pour récupérer la configuration réseau de l'interface.
 
 L'adresse IP le DNS et la route sont ajoutés au fichier cloud-config.yml
 
 ## core-install.sh
+
+/!\ WIP /!\
+
 core-install.sh est utilisé sur l'ordinateur local pour initier le processus automatisé d'install
 
 ## step by step
