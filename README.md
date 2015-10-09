@@ -34,7 +34,7 @@ Installation de CoreOS avec un kernel raw et une IP fixe sur une vm
  * Boot and enjoy
 
 
-### Etape par étape :
+### Details
 
 Création VM Debian 
 
