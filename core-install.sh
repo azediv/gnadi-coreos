@@ -1,31 +1,29 @@
 #!/bin/bash
 
-# Définition du hostname de la vm
+# Define vm hostname
 
 VM=coreos
 
-# Choix du datacenter
+# Define Datacenter
 
 DC=US
 
-# Création VM Debian (au moins 512Mo, 256Mo pas suffisant pour install des packages)
+# Create VM Debian (min 512Mo, 256Mo is not enough to install packages)
 
 gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)'
 
 wait
 
-# Création disque data (cible de l'install de CoreOS) et attachement à la VM :
+# disk creation and attach to vm as coreos-install.sh target 
 
 gandi disk create --name core_sys --size 10G --datacenter $DC --vm $VM
 
 wait
 
-# Connexion SSH à Debian 
+# Connexion SSH to Debian vm
 # Detach coreos disk before installation :
 # Get coreos-install script
 # Get interface configuration script for cloud-config
-#
-# TODO : get config from /gandi/config for cloud-config instead of a script
 
 gandi vm ssh $VM "umount /dev/sdc;\
 
@@ -60,3 +58,5 @@ gandi vm ssh $VM "./if-core-config.sh &&\
 cat base-cloud-config.yml >> cloud-config.yml &&\
 
 "
+# NOT FINISH !!!
+# TODO : Create cloud-config from /gandi/config 
