@@ -7,13 +7,21 @@
 
 VM=coreos
 
+# Define username
+
+USER=coruser
+
 # Define Datacenter
 
 DC=US
 
+# Define SSHKEY
+
+# SSHKEY=~/.ssh/id_rsa.pub
+
 # Create VM Debian (min 512Mo, 256Mo is not enough to install packages)
 
-gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)'
+gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $USER --password
 
 wait
 
@@ -34,11 +42,45 @@ apt-get update && apt-get install -y wget &&\
 
 wget https://raw.github.com/coreos/init/master/bin/coreos-install &&\
 
-wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/if-core-config.sh &&\
+wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/cloud-config.sh &&\
 
-chmod +x if-core-config.sh &&\
+chmod +x cloud-config.sh &&\
 
-chmod +x coreos-install"
+chmod +x coreos-install &&\
 
-# here come the fun part :)
+./cloud-config.sh &&\
+
+./coreos-install -d /dev/sdc -C alpha -c cloud-config.yml &&\
+
+exit"
+
+wait
+
+gandi vm stop $VM
+
+wait
+
+gandi disk detach sys_coreos
+
+wait
+
+gandi disk detach core_sys
+
+wait
+
+gandi disk update --kernel raw core_sys
+
+wait
+
+gandi vm start $VM
+
+wait
+
+IP=`gandi vm info $VM | grep ip4 | sed 's/ip4 *: //g'`
+
+ssh-keygen -f "~/.ssh/known_hosts" -R $IP
+
+gandi vm ssh --login $USER $VM
+
+
 
