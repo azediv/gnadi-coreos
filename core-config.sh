@@ -85,7 +85,7 @@ wait
 
 IP=`gandi vm info $VM | grep ip4 | sed 's/ip4 *: //g'`
 
-ssh-keygen -f "~/.ssh/known_hosts" -R $IP
+ssh-keygen -f ~/.ssh/known_hosts -R $IP
 
 gandi vm ssh --login $USER $VM
 
