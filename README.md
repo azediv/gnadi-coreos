@@ -15,7 +15,8 @@ Download on local computer and make it executable
 
     $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/core-config.sh && chmod +x core-config.sh
 
-Edit core-config.sh to change hostname, disk name, user and run :
+Edit core-config.sh to change hostname, disk name, user and run 
+hostname must be short for now, 7 or 8 max :) :
 
     $ ./core-config.sh
 
