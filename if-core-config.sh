@@ -6,7 +6,7 @@ IP=`ifconfig eth0 | grep 'inet adr:' | cut -d: -f2 | awk '{ print $1}'`
 
 # get route
 
-ROUTE=`route | awk '{ print $2}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}"`
+ROUTE=`route | awk '{ print $2}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | head -1`
 
 # get dns
 
