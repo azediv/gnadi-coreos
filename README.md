@@ -18,11 +18,11 @@ core-install.sh est utilisé sur l'ordinateur local pour initier le processus au
 
 ## step by step
 
-### Description : 
+### Description
 
 Installation de CoreOS avec un kernel raw et une IP fixe sur une vm
 
-### Résumé : 
+### Résumé
 
  * Création d'une vm debian et d'un disque de données.
  * Récupération de la configuration réseau de Debian 
@@ -56,7 +56,7 @@ Démontage du disque data avant l'installation :
     # umount /dev/sdc
 
 
-Installation des mises à jour et de wget : # curl est présent sur les images au pire
+Installation des mises à jour et de wget : # curl est présent sur les images également
 
     # apt-get update && apt-get install -y wget 
 
@@ -98,7 +98,7 @@ Récupération du DNS :
 Création du fichier cloud-config.yml pour l'installation de CoreOS.
 Contient la configuration pour : 
 
- * réseau static (avec un stop, la config et un start du service(unit systemd-networkd.service)) 
+ * réseau static
  * un user avec pass hashé (mkpasswd, openssl, etc...) 
 
 	$ mkpasswd --method=SHA-512 --rounds=4096
