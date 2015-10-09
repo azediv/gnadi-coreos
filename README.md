@@ -13,17 +13,17 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 Download on local computer and make it executable
 
- $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/core-config.sh && chmod +x core-config.sh
+    $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/core-config.sh && chmod +x core-config.sh
 
 Edit core-config.sh to change hostname, disk name, user and run :
 
- $ ./core-config.sh
+    $ ./core-config.sh
 
 ## core-config.sh
 
 core-config is used locally with gandi.cli to create vm and install coreos with /gandi/config json file 
 
-details in script... :p (moar soon)
+details in script... (moar soon :p )
 
 ## cloud-config.sh
 
@@ -35,9 +35,9 @@ cloud-config.yml is then used to configure coreos installation
 
 ### Description
 
-Installation of CoreOS avec un kernel raw et une IP fixe on Gandi Iaas server
+Installation of CoreOS with raw kernel on Gandi Iaas server
 
-### Résumé
+### Resume
 
  * Création d'une vm debian et d'un disque de données.
  * Récupération de la configuration réseau de Debian 
