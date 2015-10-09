@@ -10,7 +10,7 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 ## howto 
 
-wget https://github.com/azediv/gnadi-coreos/blob/master/core-config.sh
+wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/core-config.sh
 
 chmod +x core-config.sh
 
