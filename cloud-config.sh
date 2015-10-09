@@ -37,7 +37,6 @@ users:
       - sudo
 
     ssh_authorized_keys:
-      - ssh-rsa $SSH
-" > cloud-config.yml
+      - ssh-rsa $SSH" > cloud-config.yml
 
 exit
