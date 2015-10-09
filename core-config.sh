@@ -16,7 +16,7 @@ DC=US
 
 # Define core sys disk
 
-DISK=core_sys
+DISK=coresys
 
 # Define SSHKEY
 
@@ -75,7 +75,7 @@ gandi disk update --kernel raw $DISK
 
 wait
 
-gandi disk attach -p0 $DISK $VM
+gandi disk attach -p 0 $DISK $VM
 
 wait
 
