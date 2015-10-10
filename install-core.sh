@@ -2,24 +2,26 @@
 
 # Define settings of coreos vm
 
-VM=corevm
-USER=coreuser
+VM=vmcore3
+VM_USER=usercore3
 DC=US
-DISK=coredisk
+DISK=diskcore3
 
-gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $USER --password
+gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password
 
 wait
 
 gandi disk create --name $DISK --size 10G --datacenter $DC --vm $VM
 
-wait
+sleep 30
+
+LUSER=`echo $USER`
 
 IP=`gandi vm info $VM | grep ip4 | sed 's/ip4 *: //g'`
 
 wait
 
-ssh-keygen -f "~/.ssh/known_hosts" -R $IP
+ssh-keygen -f /home/$LUSER/.ssh/known_hosts -R $IP
 
 scp root@$IP:/gandi/config ./config
 
@@ -54,7 +56,7 @@ coreos:
       command: start
 hostname: $VM
 users:
-  - name: $USER
+  - name: $VM_USER
     passwd: $PASS
     groups:
       - sudo
@@ -86,23 +88,23 @@ gandi vm stop $VM
 
 wait
 
-gandi disk detach sys_$VM
+gandi disk detach -f sys_$VM
 
 wait
 
-gandi disk detach $DISK
+gandi disk detach -f $DISK
 
 wait
 
-gandi disk update --kernel raw $DISK 
+gandi disk update --kernel raw $DISK
 
 wait
 
-gandi disk attach -p 0 $DISK $VM 
+gandi disk attach -f -p 0 $DISK $VM
 
 wait
 
-gandi disk delete sys_$VM
+gandi disk delete -f sys_$VM
 
 wait
 
@@ -110,6 +112,7 @@ gandi vm start $VM
 
 wait
 
-ssh-keygen -f ~/.ssh/known_hosts -R $IP
+ssh-keygen -f /home/$LUSER/.ssh/known_hosts -R $IP
 
-gandi vm ssh --login $USER $VM
+gandi vm ssh --login $VM_USER $VM
+
