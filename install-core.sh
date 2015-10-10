@@ -2,10 +2,10 @@
 
 # Define settings of coreos vm
 
-VM=vmcore3
-VM_USER=usercore3
+VM=vmcore
+VM_USER=usercore
 DC=US
-DISK=diskcore3
+DISK=diskcore
 
 gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password
 
