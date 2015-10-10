@@ -28,7 +28,10 @@ Then run :
 
 ### install-core.sh
 
-install-core.sh is used locally with gandi.cli to create vm and install coreos with /gandi/config json file 
+install-core.sh is used locally with gandi.cli to create vm and install coreos with /gandi/config json file
+
 json config is download and used to create cloud-config.yml
+
 cloud-config.yml is scp to temp vm before install
+
 details in script... (more soon)
