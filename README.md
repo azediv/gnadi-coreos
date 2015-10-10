@@ -21,7 +21,7 @@ Edit install-core.sh to change hostname, disk name, user
 (hostname must be short for now, 7 or 8 max ) 
 Then run :
 
-    $ ./isntall-core.sh
+    $ ./install-core.sh
 
 
 ### version 2 script (core-config.sh and cloud-config.sh) :
