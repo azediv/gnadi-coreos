@@ -11,12 +11,28 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 ## howto 
 
+### version 1 script :
+
+Download on local computer and make it executable : 
+
+    $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/install-core.sh && chmod +x install-core.sh
+
+Edit install-core.sh to change hostname, disk name, user
+(hostname must be short for now, 7 or 8 max ) 
+Then run :
+
+    $ ./isntall-core.sh
+
+
+### version 2 script (core-config.sh and cloud-config.sh) :
+
 Download on local computer and make it executable
 
     $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/core-config.sh && chmod +x core-config.sh
 
-Edit core-config.sh to change hostname, disk name, user and run 
-hostname must be short for now, 7 or 8 max :) :
+Edit core-config.sh to change hostname, disk name, user 
+hostname must be short for now, 7 or 8 max )
+Then run :
 
     $ ./core-config.sh
 
