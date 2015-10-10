@@ -1,11 +1,11 @@
 # gnadi-coreos
 Installation script for CoreOS on Gandi server with gandi.cli
 
-## source
+## original idea
 "fork" from jmbarbier idea : 
 https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
-## pré-requis 
+## requirements
  - gandi.cli
  - credits on iaas account
 
@@ -28,7 +28,17 @@ details in script... (moar soon :p )
 
 ## cloud-config.sh
 
-cloud-config is used to create cloud-config.yml wth /gandi/config file
+cloud-config is used to create cloud-config.yml with /gandi/config file
+
+script is used to get from gandi json file :
+
+ * username
+ * sshkey
+ * hashed password
+ * network config : ip / route / dns
+ * more ?
+
+TODO : during script propose to edit cloud-config.yml to add discovery token, units, etc...
 
 cloud-config.yml is then used to configure coreos installation
 

@@ -12,6 +12,8 @@ USER=`cat /gandi/config | grep -Po '(?<="user": ")[^"]*'`
 
 SSH=`cat /gandi/config | grep -Po '(?<="ssh_key": ")[^"]*'`
 
+HOSTNAME=`cat /gandi/config | grep -Po '(?<="vm_hostname": ")[^"]*'`
+
 printf "#cloud-config
 coreos:
   units:
@@ -29,7 +31,7 @@ coreos:
         Gateway=$ROUTE
     - name: systemd-networkd.service
       command: start
-
+hostname: $HOSTNAME
 users:
   - name: $USER
     passwd: $PASS
