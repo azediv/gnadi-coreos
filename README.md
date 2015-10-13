@@ -2,8 +2,9 @@
 Installation script for CoreOS on Gandi server with gandi.cli
 
 ## original idea
-"fork" from jmbarbier idea : 
+"fork" from jmbarbier idea to create a cluster of coreos on Gandi vm : 
 https://gist.github.com/jmbarbier/ab06cf23735845a0167a
+
 
 ## requirements
  - gandi.cli
