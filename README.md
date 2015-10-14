@@ -1,7 +1,7 @@
-# coreos
+# CoreOS on Gandi IaaS vm
 Installation script for CoreOS on Gandi server with gandi.cli
 
-## original idea
+## Original idea
 "fork" from jmbarbier idea to create a cluster of coreos on Gandi vm : 
 https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
@@ -25,9 +25,7 @@ Then run :
 
     $ ./install-core.sh
 
-## files
-
-### install-core.sh
+## automatic script
 
 install-core.sh is used locally with gandi.cli to create vm and install coreos with /gandi/config json file
 
@@ -35,7 +33,10 @@ json config is download and used to create cloud-config.yml
 
 cloud-config.yml is scp to temp vm before install
 
-details in script... (more soon)
+details in script, need to edit : VM_USER VM and DC
+
+TODO : as gandi/config file is provisionned in swap during first boot, should be possible to create 
+
 
 ## step by step process
 
@@ -53,21 +54,23 @@ Stop vm and detach of Debian disk.
 
 Define kernel as raw on CoreOS disk 
 
-Attach of CoreOS disk as system disk to vm.
+Attach CoreOS disk as system disk to vm.
 
 Boot and enjoy
 
 ### Details:
 
-$HOSTNAME define hostname of coreos vm.
+$HOSTNAME define hostname of coreos vm. ($VM in script)
+
 $VM_USER define username for coreos vm.
+
 $DC define datacenter for vm and disk 
 
 Creation of Debian vm (512Mo at least, 256Mo isn't enough to install packages)
 
 	$  gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4 --login $VM_USER --hostname $HOSTNAME --image "Debian 8 64 bits (HVM)" --size 3G
 
-Creation of data (target of CoreOS install) and attachement to VM :
+Creation of data disk (target of CoreOS install) and attachment to VM :
 
 	$ gandi disk create --name core_sys --size 10G --datacenter $DC -vm $HOSTNAME
 
@@ -172,7 +175,7 @@ Update kernel to raw of data disk of CoreOS :
 
 	$ gandi disk update --kernel raw core_sys
 
-Attachement as system disk (-p 0) to vm :
+Attachment as system disk (-p 0) to vm :
 
 	$ gandi disk attach -p 0 core_sys $HOSTNAME
 
