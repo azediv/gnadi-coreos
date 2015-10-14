@@ -188,14 +188,16 @@ Login to CoreOS :
 
 	$ gandi vm ssh --login $VM_USER $HOSTNAME
 
-CoreOS alpha (829.0.0)
-$VM_USER@$HOSTNAME ~ $ ping gandi.net
-PING gandi.net (217.70.184.1) 56(84) bytes of data.
-64 bytes from website.vip.gandi.net (217.70.184.1): icmp_seq=1 ttl=60 time=104 ms
-64 bytes from website.vip.gandi.net (217.70.184.1): icmp_seq=2 ttl=60 time=104 ms
-^C
---- gandi.net ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1000ms
-rtt min/avg/max/mdev = 104.245/104.318/104.392/0.331 ms
-$VM_USER@$HOSTNAME ~ $ 
+Ping us ! :
+
+	CoreOS alpha (829.0.0)
+	$VM_USER@$HOSTNAME ~ $ ping gandi.net
+	PING gandi.net (217.70.184.1) 56(84) bytes of data.
+	64 bytes from website.vip.gandi.net (217.70.184.1): icmp_seq=1 ttl=60 time=104 ms
+	64 bytes from website.vip.gandi.net (217.70.184.1): icmp_seq=2 ttl=60 time=104 ms
+	^C
+	--- gandi.net ping statistics ---
+	2 packets transmitted, 2 received, 0% packet loss, time 1000ms
+	rtt min/avg/max/mdev = 104.245/104.318/104.392/0.331 ms
+	$VM_USER@$HOSTNAME ~ $ 
 
