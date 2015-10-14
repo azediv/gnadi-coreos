@@ -153,5 +153,5 @@ ssh-keygen -f /home/$LUSER/.ssh/known_hosts -R $IP
 
 # Connect via SSH to CoreOS new vm
 
-gandi vm ssh --login $VM_USER $VM
+gandi vm ssh --wait --login $VM_USER $VM
 
