@@ -6,11 +6,11 @@ Installation script for CoreOS on Gandi server with gandi.cli
 https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 
-## requirements
+## Requirements
  - gandi.cli
  - credits on iaas account
 
-## howto 
+## Howto 
 
 Download on local computer and make it executable : 
 
@@ -25,7 +25,7 @@ Then run :
 
     $ ./install-core.sh
 
-## automatic script
+## Automatic script
 
 install-core.sh is used locally with gandi.cli to create vm and install coreos with /gandi/config json file
 
@@ -38,7 +38,7 @@ details in script, need to edit : VM_USER VM and DC
 TODO : as gandi/config file is provisionned in swap during first boot, should be possible to create 
 
 
-## step by step process
+## Step by step process
 
 ### Resume
 
