@@ -14,6 +14,7 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 * Download on local computer and make it executable : 
 
+    
     $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/install-core.sh && chmod +x install-core.sh
 
 * Edit install-core.sh to change hostname, disk name, user 
@@ -21,6 +22,7 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 hostname must be short for now, 7 or 8 max due to the use of sys_$VM, disk name cannot be too long
 
 * Run :
+
 
     $ ./install-core.sh
 
@@ -65,7 +67,7 @@ $VM_USER define username for coreos vm.
 
 $DC define datacenter for vm and disk 
 
-Creation of Debian vm (512Mo at least, 256Mo isn't enough to install packages)
+Creation of Debian vm (512Mo at least, 256Mo isn't enough to install packages) :
 
 	$  gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4 --login $VM_USER --hostname $HOSTNAME --image "Debian 8 64 bits (HVM)" --size 3G
 
