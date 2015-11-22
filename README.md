@@ -14,8 +14,7 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 * Download on local computer and make it executable : 
 
-    
-    $ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/install-core.sh && chmod +x install-core.sh
+	$ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/install-core.sh && chmod +x install-core.sh
 
 * Edit install-core.sh to change hostname, disk name, user 
 
@@ -23,8 +22,7 @@ hostname must be short for now, 7 or 8 max due to the use of sys_$VM, disk name 
 
 * Run :
 
-
-    $ ./install-core.sh
+	$ ./install-core.sh
 
 ## Automatic script
 
