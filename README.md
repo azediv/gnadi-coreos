@@ -36,7 +36,7 @@ cloud-config.yml is scp to temp vm before install
 
 details in script, need to edit : VM_USER VM and DC
 
-TODO : as gandi/config file is provisionned in swap during first boot, should be possible to create 
+TODO : gandi/config file provisionned in swap during first boot and use in cloud-config 
 
 
 ## Step by step process
