@@ -14,16 +14,16 @@ Requirements : \b
 # Define those variables to configure CoreOS server
 
 # Hostname for CoreOS
-VM=vmcore5
+VM=vmcore3
 
 # User for coreos
-VM_USER=uscore5
+VM_USER=uscore3
 
 # Datacenter
 DC=US
 
 # Disk Name
-DISK=dicore5
+DISK=dicore3
 
 #Disk Size can be M G or T
 DS=10G
@@ -174,11 +174,52 @@ echo -e "
 Success ! \b
 "
 
+echo -e "
+===================================================== \b
+=========== Edition of cloud-config ================= \b
+===================================================== \b
+"
+
+echo -e "
+===================================================== \b
+=========== Default cloud-config.yml ================ \b
+===================================================== \b
+"
+
+cat cloud-config.yml
+
+echo -e "
+===================================================== \b
+===== Do you wish to edit cloud-config.yml ? ======== \b
+=======           Type [1] or [2] :          ======== \b
+===================================================== \b
+"
+
+select yn in "yes" "no"; do
+    case $yn in
+        yes ) nano cloud-config.yml; break;;
+        no ) echo continue installation;;
+        *) echo invalid option;;
+    esac
+done
+
+echo "
+edition done, this file will now be used to install CoreOS :
+"
+
+echo -e "
+===================================================== \b
+=============== New cloud-config.yml ================ \b
+===================================================== \b
+"
+
+cat cloud-config.yml
+
 # Upload of cloud-config.yml file
 
 echo -e "
 ===================================================== \b
-=============== Upoad of cloud-config =============== \b
+============== Upload of cloud-config =============== \b
 ===================================================== \b
 "
 
