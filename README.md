@@ -192,7 +192,7 @@ Login to CoreOS :
 
 Ping us ! :
 
-	CoreOS alpha (829.0.0)
+	CoreOS alpha (870.2.0)
 	$VM_USER@$HOSTNAME ~ $ ping gandi.net
 	PING gandi.net (217.70.184.1) 56(84) bytes of data.
 	64 bytes from website.vip.gandi.net (217.70.184.1): icmp_seq=1 ttl=60 time=104 ms
