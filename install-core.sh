@@ -119,13 +119,16 @@ echo -e "
 ===================================================== \b
 "
 
-ROUTE=`cat config | grep -Po '(?<="pbn_gateway": ")[^"]*' | head -1`
+function parse_config {
+  local rslt=$(cat config | \
+    python -c "import sys,json;data=json.loads(sys.stdin.read());print $1;")
+  echo "$rslt"
+}
 
-PASS=`cat config | grep -Po '(?<="password": ")[^"]*'`
-
-SSH=`cat config | grep -Po '(?<="ssh_key": ")[^"]*'`
-
-DNS=`gandi vm ssh $VM 'cat /etc/resolv.conf' | awk '{ print $2}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | head -1`
+ROUTE=$(parse_config 'data["vif"][0]["pna"][0]["pbn"]["pbn_gateway"]')
+PASS=$(parse_config 'data["vm_conf"]["password"]')
+SSH=$(parse_config 'data["vm_conf"]["ssh_key"]')
+DNS=$(parse_config 'data["nameservers"][1]')
 
 wait
 
