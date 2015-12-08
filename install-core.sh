@@ -36,7 +36,7 @@ echo -e "\b
 ===================================================== \b
 "
 
-gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password --sshkey /home/$USER/.ssh/id_rsa.pub
+gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
 
 wait
 
@@ -59,10 +59,6 @@ sleep 30
 echo -e "
 Success ! \b
 "
-
-# Define local user to add/remove ssh fingerprint
-
-LUSER=`echo $USER`
 
 # Get vm IP
 
@@ -89,7 +85,7 @@ echo -e "
 
 "
 
-ssh-keygen -f /home/$LUSER/.ssh/known_hosts -R $IP
+ssh-keygen -f $HOME/.ssh/known_hosts -R $IP
 
 # Download of gandi config file containing all informations about vm
 
@@ -376,7 +372,7 @@ echo -e "
 ===================================================== \b
 "
 
-ssh-keygen -f /home/$LUSER/.ssh/known_hosts -R $IP
+ssh-keygen -f $HOME/.ssh/known_hosts -R $IP
 
 echo -e "
 Success ! \b
