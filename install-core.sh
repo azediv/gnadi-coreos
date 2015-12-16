@@ -36,7 +36,7 @@ echo -e "\b
 ===================================================== \b
 "
 
-gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password --sshkey /home/$USER/.ssh/id_rsa.pub
+gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
 
 wait
 
@@ -59,10 +59,6 @@ sleep 30
 echo -e "
 Success ! \b
 "
-
-# Define local user to add/remove ssh fingerprint
-
-LUSER=`echo $USER`
 
 # Get vm IP
 
@@ -89,7 +85,7 @@ echo -e "
 
 "
 
-ssh-keygen -f /home/$LUSER/.ssh/known_hosts -R $IP
+ssh-keygen -f $HOME/.ssh/known_hosts -R $IP
 
 # Download of gandi config file containing all informations about vm
 
@@ -119,13 +115,16 @@ echo -e "
 ===================================================== \b
 "
 
-ROUTE=`cat config | grep -Po '(?<="pbn_gateway": ")[^"]*' | head -1`
+function parse_config {
+  local rslt=$(cat config | \
+    python -c "import sys,json;data=json.loads(sys.stdin.read());print $1;")
+  echo "$rslt"
+}
 
-PASS=`cat config | grep -Po '(?<="password": ")[^"]*'`
-
-SSH=`cat config | grep -Po '(?<="ssh_key": ")[^"]*'`
-
-DNS=`gandi vm ssh $VM 'cat /etc/resolv.conf' | awk '{ print $2}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" | head -1`
+ROUTE=$(parse_config 'data["vif"][0]["pna"][0]["pbn"]["pbn_gateway"]')
+PASS=$(parse_config 'data["vm_conf"]["password"]')
+SSH=$(parse_config 'data["vm_conf"]["ssh_key"]')
+DNS=$(parse_config 'data["nameservers"][1]')
 
 wait
 
@@ -373,7 +372,7 @@ echo -e "
 ===================================================== \b
 "
 
-ssh-keygen -f /home/$LUSER/.ssh/known_hosts -R $IP
+ssh-keygen -f $HOME/.ssh/known_hosts -R $IP
 
 echo -e "
 Success ! \b
