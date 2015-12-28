@@ -14,16 +14,16 @@ Requirements : \b
 # Define those variables to configure CoreOS server
 
 # Hostname for CoreOS
-VM=vmcore3
+VM=vmcore
 
 # User for coreos
-VM_USER=uscore3
+VM_USER=usercore
 
 # Datacenter
 DC=US
 
 # Disk Name
-DISK=dicore3
+DISK=diskcore
 
 #Disk Size can be M G or T
 DS=10G
@@ -197,7 +197,7 @@ echo -e "
 select yn in "yes" "no"; do
     case $yn in
         yes ) nano cloud-config.yml; break;;
-        no ) echo continue installation;;
+        no ) echo continue installation; break;;
         *) echo invalid option;;
     esac
 done
