@@ -8,7 +8,7 @@ To install CoreOS at Gandi, there's a script that simplify the creation and conf
 
 That script require [Gandi.cli](https://github.com/gandi/gandi.cli#installation). 
 
-Information on the script and detailled process can be found at [Github](https://github.com/azediv/gnadi-coreos).
+Information on the script and manual process can be found at [Github](https://github.com/azediv/gnadi-coreos).
 
 When gandi.cli is installed and configured with credits, download and make executable the script.
 

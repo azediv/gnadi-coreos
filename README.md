@@ -31,7 +31,7 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 install-core.sh is used on your local computer in combination with gandi.cli to create a temporary vm and a target disk to install coreos. cloud-config.yaml is created with /gandi/config json file.
 
-## Step by step process
+## Manual process
 
 ### Resume
 
