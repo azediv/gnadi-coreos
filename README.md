@@ -7,18 +7,19 @@ https://gist.github.com/jmbarbier/ab06cf23735845a0167a
 
 
 ## Requirements
- - gandi.cli with credits on iaas account
- - nano text editor (vi(m) fan, sed script to replace nano by vi(m))
+ - gandi.cli setup with credits on iaas account
+ - ssh keys  on local computer
 
 ## Howto 
 
 ### Download on local computer and make it executable : 
 
+```
 	$ wget https://raw.githubusercontent.com/azediv/gnadi-coreos/master/install-core.sh && chmod +x install-core.sh
+```
 
 ### Edit install-core.sh to change hostname, disk name, user :
 
-hostname and disk name must be short for now, 7 or 8 max.
 
 	$ $EDITOR install-core.sh
 	
@@ -28,16 +29,7 @@ hostname and disk name must be short for now, 7 or 8 max.
 
 ## Automatic script
 
-install-core.sh is used locally with gandi.cli to create vm and install coreos with /gandi/config json file
-
-json config is download and used to create cloud-config.yml
-
-cloud-config.yml is scp to temp vm before install
-
-details in script, need to edit : VM_USER VM and DC
-
-TODO : gandi/config file provisionned in swap during first boot and use in cloud-config 
-
+install-core.sh is used on your local computer in combination with gandi.cli to create a temporary vm and a target disk to install coreos. cloud-config.yaml is created with /gandi/config json file.
 
 ## Step by step process
 
