@@ -1,120 +1,36 @@
 #!/bin/bash
 
-echo -e "\b
-===================================================== \b
-== CoreOS installation script on Gandi IaaS server == \b
-===================================================== \b
-\b
-Requirements : \b
-\b
- * gandi.cli configured with IaaS credit : http://cli.gandi.net \b
-
-\b"
-
 # Define those variables to configure CoreOS server
+# cloud-config file is below
 
-# Hostname for CoreOS
-VM=vmcore
+CHANNEL=alpha                                 # channel of Coreos : stable / beta / alpha
+TOKEN=<EDITME>                                 # token of CoreOS server, goto https://discovery.etcd.io/new?size=3
+VM=coreos                                     # hostname of CoreOS server
+VM_USER=user                                   # username of CoreOS server
+DC=US-BA1                                     # datacenter : LU-BI1 / US-BA1 / FR-SD2
+DISK=coreosdisk                               # diskname of CoreOS server
+DS=10G                                        # disksize of CoreOS server
 
-# User for coreos
-VM_USER=usercore
-
-# Datacenter
-DC=US
-
-# Disk Name
-DISK=diskcore
-
-#Disk Size can be M G or T
-DS=10G
-
-# Create temp vm to attach data disk as target of coreos install script
-
-echo -e "\b
-===================================================== \b
-= Creation of a temporary server with Debian images = \b
-===================================================== \b
-"
-
+echo -e "CoreOS installation script on Gandi IaaS server \b
+Creation of a temporary server with Debian images plus a target disk for CoreOS install"
 gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
-
 wait
-
-echo -e "
-Success !\b
-"
-
-# Create data disk to attach to vm
-
-echo -e "
-===================================================== \b
-=== Creation of a target disk for CoreOS install ==== \b
-===================================================== \b
-"
-
 gandi disk create --name $DISK --size $DS --datacenter $DC --vm $VM
-
 sleep 30
 
-echo -e "
-Success ! \b
-"
-
-# Get vm IP
-
-echo -e "
-===================================================== \b
-=================== Get IP of VM ==================== \b
-===================================================== \b
-"
-
+echo -e "Get IP of temp VM and check if ssh-key is known, if so delete it"
 IP=`gandi vm info $VM | grep ip4 | sed 's/ip4 *: //g'`
-
 wait
-
-echo -e "
-Success ! \b
-"
-
-# Remove fingerprint if IP already known
-
-echo -e "
-===================================================== \b
-=== Check if ssh-key is known and if so delete it  == \b
-===================================================== \b
-
-"
-
 ssh-keygen -f $HOME/.ssh/known_hosts -R $IP
-
-# Download of gandi config file containing all informations about vm
-
-echo -e "
-Success ! \b
-"
-
-echo -e "
-===================================================== \b
-=========== Download of Gandi config ================ \b
-===================================================== \b
-"
-
-scp root@$IP:/gandi/config ./config
-
+wait
+ssh-keyscan -H $IP >> $HOME/.ssh/known_hosts
 wait
 
-echo -e "
-Success ! \b
-"
+echo -e "Download of Gandi Server settings"
+scp root@$IP:/gandi/config ./config
+wait
 
-# Define from gandi config file : route, hashed password, ssh key, dns
-
-echo -e "
-===================================================== \b
-= Define Route Password SSH and DNS for cloud-config= \b
-===================================================== \b
-"
-
+echo -e "Define route, hashed_password, ssh_key, and DNS for cloud-config"
 function parse_config {
   local rslt=$(cat config | \
     python -c "import sys,json;data=json.loads(sys.stdin.read());print $1;")
@@ -125,23 +41,22 @@ ROUTE=$(parse_config 'data["vif"][0]["pna"][0]["pbn"]["pbn_gateway"]')
 PASS=$(parse_config 'data["vm_conf"]["password"]')
 SSH=$(parse_config 'data["vm_conf"]["ssh_key"]')
 DNS=$(parse_config 'data["nameservers"][1]')
-
 wait
 
-echo -e "
-Success ! \b
-"
-
-# Creation of cloud-config.yml file
-
-echo -e "
-===================================================== \b
-========== Creation of cloud-config ================= \b
-===================================================== \b
-"
-
+echo -e "Creation of cloud-config"
 printf "#cloud-config
+
 coreos:
+  etcd2:
+    # generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3
+    # specify the initial size of your cluster with ?size=X
+    discovery: https://discovery.etcd.io/$TOKEN
+    advertise-client-urls: http://$IP:2379,http://$IP:4001
+    initial-advertise-peer-urls: http://$IP:2380
+    # listen on both the official ports and the legacy ports
+    # legacy ports can be omitted if your application doesn't depend on them
+    listen-client-urls: http://0.0.0.0:2379,http://0.0.0.0:4001
+    listen-peer-urls: http://$IP:2380
   units:
     - name: systemd-networkd.service
       command: stop
@@ -157,94 +72,29 @@ coreos:
         Gateway=$ROUTE
     - name: systemd-networkd.service
       command: start
+    - name: etcd2.service
+      command: start
+    - name: fleet.service
+      command: start
+    - name: flanneld.service
+      command: start
 hostname: $VM
 users:
   - name: $VM_USER
     passwd: $PASS
     groups:
       - sudo
-
     ssh_authorized_keys:
-      - $SSH\n" > cloud-config.yml
-
+      - $SSH\n" > cloud-config.yaml
 wait
 
-echo -e "
-Success ! \b
-"
-
-echo -e "
-===================================================== \b
-=========== Edition of cloud-config ================= \b
-===================================================== \b
-"
-
-echo -e "
-===================================================== \b
-=========== Default cloud-config.yml ================ \b
-===================================================== \b
-"
-
-cat cloud-config.yml
-
-echo -e "
-===================================================== \b
-===== Do you wish to edit cloud-config.yml ? ======== \b
-=======           Type [1] or [2] :          ======== \b
-===================================================== \b
-"
-
-select yn in "yes" "no"; do
-    case $yn in
-        yes ) nano cloud-config.yml; break;;
-        no ) echo continue installation; break;;
-        *) echo invalid option;;
-    esac
-done
-
-echo "
-edition done, this file will now be used to install CoreOS :
-"
-
-echo -e "
-===================================================== \b
-=============== New cloud-config.yml ================ \b
-===================================================== \b
-"
-
-cat cloud-config.yml
-
-# Upload of cloud-config.yml file
-
-echo -e "
-===================================================== \b
-============== Upload of cloud-config =============== \b
-===================================================== \b
-"
-
-scp cloud-config.yml root@$IP:/root/
-
+echo -e "Upload of cloud-config"
+scp cloud-config.yaml root@$IP:/root/
 wait
 
-echo -e "
-Success ! \b
-"
-
-
-# Unmount of data disk  before installation of CoreOS
-# Install of wget
-# Download  of coreos-install script
-# Installation of coreos from cloud-config file
-
-echo -e "
-===================================================== \b
-================ Unmount data disk ================== \b
-==================== Install wget =================== \b
-======= Download  of coreos-install script ========== \b
-==== Installation of coreos from cloud-config file == \b
-===================================================== \b
-"
-
+echo -e "Unmount data disk, Install wget  \b
+Download coreos-install script \b
+Installation of coreos with cloud-config file"
 gandi vm ssh $VM "umount /dev/sdc;\
 
 apt-get update && apt-get install -y wget &&\
@@ -253,139 +103,30 @@ wget https://raw.github.com/coreos/init/master/bin/coreos-install &&\
 
 chmod +x coreos-install &&\
 
-./coreos-install -d /dev/sdc -C alpha -c cloud-config.yml &&\
+./coreos-install -d /dev/sdc -C $CHANNEL -c cloud-config.yaml &&\
 
 exit"
-
 wait
 
-echo -e "
-Success ! \b
-"
-
-# Stop of vm before detaching disks
-
-echo -e "
-===================================================== \b
-======= Stop VM before detaching both disks ========= \b
-===================================================== \b
-
-"
-
-gandi vm stop $VM
-
+echo -e "Stop VM and detach both disks"
+gandi vm stop $VM && gandi disk detach -f sys_$VM && gandi disk detach -f $DISK
 wait
 
-echo -e "
-Success ! \b
-"
-
-# Detach both disk
-
-echo -e "
-===================================================== \b
-============== Detaching both disks ================= \b
-===================================================== \b
-"
-
-gandi disk detach -f sys_$VM
-
+echo -e "Updating kernel to raw on CoreOS disk \b
+Attaching CoreOS disk in first position \b
+Deleting Debian temp disk !"
+gandi disk update --kernel raw $DISK && gandi disk attach -f -p 0 $DISK $VM && gandi disk delete -f sys_$VM
 wait
 
-gandi disk detach -f $DISK
-
-wait
-
-echo -e "
-Success ! \b
-"
-
-# Update kernel of CoreOS disk as raw
-
-echo -e "
-===================================================== \b
-====== Updating kernel to raw on CoreOS disk ======== \b
-===================================================== \b
-"
-
-gandi disk update --kernel raw $DISK
-
-wait
-
-echo -e "
-Success ! \b
-"
-
-# Attach CoreOS disk in first position
-
-echo -e "
-===================================================== \b
-====== Attach CoreOS disk in first position ========= \b
-===================================================== \b
-"
-
-gandi disk attach -f -p 0 $DISK $VM
-
-wait
-
-echo -e "
-Success ! \b
-"
-
-# Delete Debian disk
-
-echo -e "
-===================================================== \b
-=========== Deleting Debian temp disk ! ============= \b
-===================================================== \b
-"
-
-gandi disk delete -f sys_$VM
-
-wait
-
-echo -e "
-Success ! \b
-"
-
-# Start CoreOS vm
-
-echo -e "
-===================================================== \b
-============== Starting CoreOS Server ! ============= \b
-===================================================== \b
-"
-
+echo -e "Starting CoreOS Server !"
 gandi vm start $VM
-
 wait
 
-echo -e "
-Success ! \b
-"
-
-# Remove previous ssh fingerprint
-
-echo -e "
-===================================================== \b
-============= Removing ssh fingerprint ============== \b
-===================================================== \b
-"
-
+echo -e "Removing ssh fingerprint"
 ssh-keygen -f $HOME/.ssh/known_hosts -R $IP
+wait
+ssh-keyscan -H $IP >> $HOME/.ssh/known_hosts
+wait
 
-echo -e "
-Success ! \b
-"
-
-echo -e "
-===================================================== \b
-=============== Login to CoreOS... ================== \b
-===================================================== \b
-"
-
-# Connect via SSH to CoreOS new vm
-
-gandi vm ssh --wait --login $VM_USER $VM
-
-
+echo -e "Login to CoreOS..."
+gandi vm ssh --login $VM_USER $VM
