@@ -4,9 +4,9 @@
 # cloud-config file is below
 
 CHANNEL=alpha                                 # channel of Coreos : stable / beta / alpha
-TOKEN=<EDITME>                                 # token of CoreOS server, goto https://discovery.etcd.io/new?size=3
+TOKEN=<EDITME>                                # token of CoreOS server, goto https://discovery.etcd.io/new?size=3
 VM=coreos                                     # hostname of CoreOS server
-VM_USER=user                                   # username of CoreOS server
+VM_USER=user                                  # username of CoreOS server
 DC=US-BA1                                     # datacenter : LU-BI1 / US-BA1 / FR-SD2
 DISK=coreosdisk                               # diskname of CoreOS server
 DS=10G                                        # disksize of CoreOS server
