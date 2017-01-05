@@ -97,7 +97,7 @@ Download coreos-install script \b
 Installation of coreos with cloud-config file"
 gandi vm ssh $VM "umount /dev/sdc;\
 
-apt-get update && apt-get install -y wget &&\
+apt-get update && apt-get install -y gawk wget &&\
 
 wget https://raw.github.com/coreos/init/master/bin/coreos-install &&\
 
