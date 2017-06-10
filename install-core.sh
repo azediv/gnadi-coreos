@@ -5,15 +5,15 @@
 
 CHANNEL=stable                                 # channel of Coreos : stable / beta / alpha
 TOKEN=<EDITME>                                # token of CoreOS server, goto https://discovery.etcd.io/new?size=3
-VM=coreos                                     # hostname of CoreOS server
+VM=core                                     # hostname of CoreOS server
 VM_USER=user                                  # username of CoreOS server
-DC=LU-BI1                                     # datacenter : LU-BI1 / US-BA1 / FR-SD2
-DISK=coreosdisk                               # diskname of CoreOS server
+DC=FR-SD3                                     # datacenter : LU-BI1 / US-BA1 / FR-SD2
+DISK=coreosdata                               # diskname of CoreOS server
 DS=10G                                        # disksize of CoreOS server
 
 echo -e "CoreOS installation script on Gandi IaaS server \b
 Creation of a temporary server with Debian images plus a target disk for CoreOS install"
-gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
+gandi vm create --datacenter $DC --memory 1024 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
 wait
 gandi disk create --name $DISK --size $DS --datacenter $DC --vm $VM
 sleep 30
@@ -95,15 +95,17 @@ wait
 echo -e "Unmount data disk, Install wget  \b
 Download coreos-install script \b
 Installation of coreos with cloud-config file"
-gandi vm ssh $VM "umount /dev/sdc;\
+gandi vm ssh $VM "umount /dev/xvdb;\
 
 apt-get update && apt-get install -y gawk wget &&\
 
-wget https://raw.github.com/coreos/init/master/bin/coreos-install &&\
+wget https://raw.github.com/coreos/init/master/bin/coreos-install -O coreos &&\
+
+sed '459iumount "${DEVICE}1" && umount "${DEVICE}6" && umount "${DEVICE}9"' coreos > coreos-install
 
 chmod +x coreos-install &&\
 
-./coreos-install -d /dev/sdc -C $CHANNEL -c cloud-config.yaml &&\
+./coreos-install -d /dev/xvdb -C $CHANNEL -c cloud-config.yaml &&\
 
 exit"
 wait
