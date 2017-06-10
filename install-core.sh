@@ -101,7 +101,7 @@ apt-get update && apt-get install -y gawk wget &&\
 
 wget https://raw.github.com/coreos/init/master/bin/coreos-install -O coreos &&\
 
-sed '459iumount "${DEVICE}1" && umount "${DEVICE}6" && umount "${DEVICE}9"' coreos > coreos-install
+sed '459iumount /dev/xvdb1 && umount /dev/xvdb6 && umount /dev/xvdb9' coreos > coreos-install
 
 chmod +x coreos-install &&\
 
