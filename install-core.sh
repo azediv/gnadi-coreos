@@ -3,20 +3,27 @@
 # Define those variables to configure CoreOS server
 # cloud-config file is below
 
-CHANNEL=stable                                 # channel of Coreos : stable / beta / alpha
-TOKEN=<EDITME>                                # token of CoreOS server, goto https://discovery.etcd.io/new?size=3
-VM=coreos                                     # hostname of CoreOS server
-VM_USER=user                                  # username of CoreOS server
-DC=LU-BI1                                     # datacenter : LU-BI1 / US-BA1 / FR-SD2
-DISK=coreosdisk                               # diskname of CoreOS server
-DS=10G                                        # disksize of CoreOS server
+# channel
+CHANNEL=stable
+# token of CoreOS server, goto https://discovery.etcd.io/new?size=3
+TOKEN=<EDITME>
+# hostname
+VM=corevm
+# username
+VM_USER=user
+# datacenter : LU-BI1 / US-BA1 / FR-SD2
+DC=FR-SD3
+# diskname
+DISK=coredisk
+# disksize
+DS=10G
 
 echo -e "CoreOS installation script on Gandi IaaS server \b
 Creation of a temporary server with Debian images plus a target disk for CoreOS install"
-gandi vm create --datacenter $DC --memory 512 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8 64 bits (HVM)' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
+gandi vm create --datacenter $DC --memory 1024 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
 wait
-gandi disk create --name $DISK --size $DS --datacenter $DC --vm $VM
-sleep 30
+# gandi disk create --name $DISK --size $DS --datacenter $DC --vm $VM
+# sleep 30
 
 echo -e "Get IP of temp VM and check if ssh-key is known, if so delete it"
 IP=`gandi vm info $VM | grep ip4 | sed 's/ip4 *: //g'`
@@ -26,8 +33,15 @@ wait
 ssh-keyscan -H $IP >> $HOME/.ssh/known_hosts
 wait
 
+echo -e "Change CONFIG_ALLOW_MOUNT from 1 to 0"
+gandi vm ssh $VM "sed -i '/CONFIG_ALLOW_MOUNT=1/c\CONFIG_ALLOW_MOUNT=0' /etc/default/gandi"
+wait
+
 echo -e "Download of Gandi Server settings"
 scp root@$IP:/gandi/config ./config
+wait
+
+gandi disk create --name $DISK --size $DS --datacenter $DC --vm $VM
 wait
 
 echo -e "Define route, hashed_password, ssh_key, and DNS for cloud-config"
@@ -95,15 +109,13 @@ wait
 echo -e "Unmount data disk, Install wget  \b
 Download coreos-install script \b
 Installation of coreos with cloud-config file"
-gandi vm ssh $VM "umount /dev/sdc;\
-
-apt-get update && apt-get install -y gawk wget &&\
+gandi vm ssh $VM "apt-get update && apt-get install -y gawk wget &&\
 
 wget https://raw.github.com/coreos/init/master/bin/coreos-install &&\
 
 chmod +x coreos-install &&\
 
-./coreos-install -d /dev/sdc -C $CHANNEL -c cloud-config.yaml &&\
+./coreos-install -d /dev/xvdb -C $CHANNEL -c cloud-config.yaml &&\
 
 exit"
 wait
