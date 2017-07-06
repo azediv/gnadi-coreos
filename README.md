@@ -180,7 +180,7 @@ Login to CoreOS :
 
 Ping us ! :
 
-	  Container Linux by CoreOS stable (1353.8.0)	
+	  Container Linux by CoreOS stable (1409.5.0)	
 	  $VM_USER@$VM ~ $ ping gandi.net
 	  PING gandi.net (217.70.184.1) 56(84) bytes of data.
 	  64 bytes from website.vip.gandi.net (217.70.184.1): icmp_seq=1 ttl=60 time=2.24 ms
