@@ -59,13 +59,10 @@ Boot and enjoy
 	
 	- $ prompt is for commands run on local computer
 	- # prompt is for commands run on temp vm
-	- $VM define hostname of coreos vm.
-	- $VM_USER define username for coreos vm.
-	- $DC define datacenter for vm and disk 
 
 Creation of Debian vm (512Mo at least, 256Mo isn't enough to install packages) :
 
-	$  gandi vm create --datacenter $DC --memory 1024 --cores 1 --ip-version 4 --login $VM_USER --hostname $VM --image "Debian 8"
+	$  gandi vm create --datacenter $DC --memory 1024 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 9' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
 
 SSH to Debian :
 
@@ -73,7 +70,7 @@ SSH to Debian :
 
 Change CONFIG_ALLOW_MOUNT to 0 :
 
-  	# sed -i '/CONFIG_ALLOW_MOUNT=1/c\CONFIG_ALLOW_MOUNT=0' /etc/default/gandi
+	# sed -i '/CONFIG_ALLOW_MOUNT=1/c\CONFIG_ALLOW_MOUNT=0' /etc/default/gandi
 
 Creation of data disk (target of CoreOS install) and attachment to VM :
 
