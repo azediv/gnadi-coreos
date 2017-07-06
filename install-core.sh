@@ -20,7 +20,7 @@ DS=10G
 
 echo -e "CoreOS installation script on Gandi IaaS server \b
 Creation of a temporary server with Debian images plus a target disk for CoreOS install"
-gandi vm create --datacenter $DC --memory 1024 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 8' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
+gandi vm create --datacenter $DC --memory 1024 --cores 1 --ip-version 4  --hostname $VM --image 'Debian 9' --login $VM_USER --password --sshkey $HOME/.ssh/id_rsa.pub
 wait
 # gandi disk create --name $DISK --size $DS --datacenter $DC --vm $VM
 # sleep 30
