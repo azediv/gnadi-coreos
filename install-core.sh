@@ -127,7 +127,7 @@ wait
 echo -e "Updating kernel to raw on CoreOS disk \b
 Attaching CoreOS disk in first position \b
 Deleting Debian temp disk !"
-gandi disk update --kernel raw $DISK && gandi disk attach -f -p 0 $DISK $VM && gandi disk delete -f sys_$VM
+gandi disk update --kernel 'raw (xen)' $DISK && gandi disk attach -f -p 0 $DISK $VM && gandi disk delete -f sys_$VM
 wait
 
 echo -e "Starting CoreOS Server !"
